@@ -74,8 +74,7 @@ final readonly class AssetDownloadService
         array $selectedIds,
         User $user,
         string $typeCondition,
-    ): Asset\Listing
-    {
+    ): Asset\Listing {
         $db = Db::get();
         $parentPath = $folder->getId() === 1 ? '' : $folder->getRealFullPath();
 

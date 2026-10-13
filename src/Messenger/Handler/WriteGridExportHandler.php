@@ -30,7 +30,7 @@ use RuntimeException;
 
 final class WriteGridExportHandler extends AbstractAutomationActionHandler
 {
-    public function __construct(private readonly GridExportService $gridExportService,)
+    public function __construct(private readonly GridExportService $gridExportService)
     {
         parent::__construct();
     }
