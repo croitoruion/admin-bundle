@@ -17,6 +17,10 @@ declare(strict_types=1);
 namespace OpenDxp\Bundle\AdminBundle\Tests\Feature\LoginLink;
 
 use OpenDxp\Bundle\AdminBundle\Tests\Application\Host\MockGeneralHostProvider;
+use OpenDxp\Bundle\AdminBundle\Security\TrustedLoginLinkHostResolver;
+use OpenDxp\Http\Request\Host\GeneralHostProviderInterface;
+use OpenDxp\Http\Request\Host\GeneralHostResolver;
+use OpenDxp\Http\Request\Host\TrustedHosts;
 use OpenDxp\Test\Factory\SiteFactory;
 
 it('trusts the host of a registered site without asking the providers', function () {
@@ -26,6 +30,17 @@ it('trusts the host of a registered site without asking the providers', function
         ->toBe($this->domain('main'))
         ->and($this->generalHosts->contexts)
         ->toBe([]);
+});
+
+it('trusts a host that OpenDXP trusts beyond the sites', function () {
+    $hostResolver = new TrustedLoginLinkHostResolver(
+        new GeneralHostResolver([$this->generalHosts]),
+        new TrustedHosts([$this->domain('backoffice')]),
+    );
+
+    $host = $hostResolver->resolve($this->requestFor($this->domain('backoffice')));
+
+    expect($host)->toBe($this->domain('backoffice'));
 });
 
 it('falls back to the general host for a host no site knows', function () {
@@ -50,5 +65,5 @@ it('hands the request to the providers it asks for the general host', function (
 
     $this->hostResolver()->resolve($request);
 
-    expect($this->generalHosts->contexts)->toBe([['source' => $request]]);
+    expect($this->generalHosts->contexts)->toBe([[GeneralHostProviderInterface::CONTEXT_SOURCE => $request]]);
 });
