@@ -16,8 +16,8 @@ declare(strict_types=1);
 
 namespace OpenDxp\Bundle\AdminBundle\Tests\Feature\LoginLink;
 
-use OpenDxp\Bundle\AdminBundle\Tests\Application\Host\MockGeneralHostProvider;
 use OpenDxp\Bundle\AdminBundle\Security\TrustedLoginLinkHostResolver;
+use OpenDxp\Bundle\AdminBundle\Tests\Application\Host\MockGeneralHostProvider;
 use OpenDxp\Http\Request\Host\GeneralHostProviderInterface;
 use OpenDxp\Http\Request\Host\GeneralHostResolver;
 use OpenDxp\Http\Request\Host\TrustedHosts;
